@@ -1,0 +1,8 @@
+.DS_Store
+.terraform/
+.terragrunt-cache/
+*.tfstate
+*.tfstate.*
+*.retry
+__pycache__/
+.validate-tmp/

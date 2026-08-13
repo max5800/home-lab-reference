@@ -1,0 +1,43 @@
+---
+- name: Install baseline packages
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - chrony
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Create the educational platform directory
+  ansible.builtin.file:
+    path: /etc/example-platform
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Create the systemd journal configuration directory
+  ansible.builtin.file:
+    path: /etc/systemd/journald.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Configure bounded journal retention
+  ansible.builtin.copy:
+    dest: /etc/systemd/journald.conf.d/20-example-retention.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      [Journal]
+      SystemMaxUse=256M
+      MaxRetentionSec=7day
+  notify: Restart systemd journal
+
+- name: Keep time synchronization active
+  ansible.builtin.service:
+    name: chrony
+    state: started
+    enabled: true

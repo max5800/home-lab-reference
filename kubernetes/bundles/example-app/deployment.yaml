@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: example-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: example-app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: example-app
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: web
+          image: registry.k8s.io/e2e-test-images/agnhost:2.53
+          imagePullPolicy: IfNotPresent
+          args:
+            - netexec
+            - --http-port=8080
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: EXAMPLE_GREETING
+              valueFrom:
+                secretKeyRef:
+                  name: example-app-config
+                  key: greeting
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true

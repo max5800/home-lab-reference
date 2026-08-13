@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-app
+  namespace: example-app
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - app.example.com
+      secretName: example-app-tls
+  rules:
+    - host: app.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: example-app
+                port:
+                  name: http

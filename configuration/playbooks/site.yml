@@ -1,0 +1,7 @@
+---
+- name: Converge the educational K3s host baseline
+  hosts: k3s_example
+  become: true
+  gather_facts: true
+  roles:
+    - role: base

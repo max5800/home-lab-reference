@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 700" role="img" aria-labelledby="title desc">
+  <title id="title">Geschichtete Home-Lab-Referenzarchitektur</title>
+  <desc id="desc">Von Pull Request und Git über OpenTofu, Ansible und Fleet zu K3s; Vault liefert Geheimnisse über External Secrets Operator.</desc>
+  <style>
+    :root { --bg:#f8fafc; --fg:#172033; --muted:#5b6475; --line:#64748b; --neutral:#e2e8f0; --input:#bfdbfe; --process:#c7d2fe; --storage:#99f6e4; --external:#fde68a; }
+    .background{fill:var(--bg)} .title{font:700 24px system-ui,sans-serif;fill:var(--fg)} .subtitle{font:13px system-ui,sans-serif;fill:var(--muted)}
+    .label{font:650 15px system-ui,sans-serif;fill:var(--fg)} .small{font:12px system-ui,sans-serif;fill:var(--muted)}
+    .node{stroke:var(--line);stroke-width:1}.neutral{fill:var(--neutral)}.input{fill:var(--input)}.process{fill:var(--process)}.storage{fill:var(--storage)}.external{fill:var(--external)}
+    .edge{stroke:var(--line);stroke-width:1.8;fill:none}.zone{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:7 5;opacity:.8}
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="var(--line)" /></marker>
+  </defs>
+  <rect width="1100" height="700" class="background" />
+  <text x="40" y="46" class="title">Home Lab Reference</text>
+  <text x="40" y="70" class="subtitle">Deklarativer Änderungsfluss und getrennte Vertrauenszonen</text>
+  <rect x="25" y="100" width="1050" height="145" rx="16" class="zone" />
+  <text x="48" y="125" class="small">BEITRAGS- UND STEUERUNGSZONE · KEINE SECRETS</text>
+  <rect x="25" y="275" width="1050" height="255" rx="16" class="zone" />
+  <text x="48" y="300" class="small">LAUFZEITZONE · GESCHÜTZTE IDENTITÄTEN</text>
+  <rect x="690" y="560" width="385" height="115" rx="16" class="zone" />
+  <text x="713" y="584" class="small">SECRET-ZONE</text>
+  <path d="M230 178H292" class="edge" marker-end="url(#arrow)" />
+  <path d="M482 178H544" class="edge" marker-end="url(#arrow)" />
+  <path d="M639 220V335H230" class="edge" marker-end="url(#arrow)" />
+  <path d="M330 375H390" class="edge" marker-end="url(#arrow)" />
+  <path d="M600 375H660" class="edge" marker-end="url(#arrow)" />
+  <path d="M850 375H910" class="edge" marker-end="url(#arrow)" />
+  <path d="M755 435V615H820" class="edge" marker-end="url(#arrow)" />
+  <path d="M940 595H970V435" class="edge" marker-end="url(#arrow)" />
+  <rect x="60" y="143" width="170" height="70" rx="12" class="node input" /><text x="85" y="173" class="label">Pull Request</text><text x="85" y="193" class="small">Entwurf + Review</text>
+  <rect x="292" y="143" width="190" height="70" rx="12" class="node neutral" /><text x="317" y="173" class="label">Sichere Validierung</text><text x="317" y="193" class="small">offline, credential-frei</text>
+  <rect x="544" y="143" width="190" height="70" rx="12" class="node storage" /><text x="569" y="173" class="label">Git / main</text><text x="569" y="193" class="small">freigegebener Zustand</text>
+  <rect x="100" y="335" width="230" height="100" rx="12" class="node process" /><text x="125" y="369" class="label">OpenTofu + Terragrunt</text><text x="125" y="391" class="small">VM-Modul und Eingaben</text><text x="125" y="410" class="small">deklariert Ressourcen</text>
+  <rect x="390" y="335" width="210" height="100" rx="12" class="node process" /><text x="415" y="369" class="label">Ansible</text><text x="415" y="391" class="small">idempotente Konvergenz</text><text x="415" y="410" class="small">bereitet K3s vor</text>
+  <rect x="660" y="335" width="190" height="100" rx="12" class="node process" /><text x="685" y="369" class="label">Rancher Fleet</text><text x="685" y="391" class="small">zieht Git-Bundles</text><text x="685" y="410" class="small">reconciliert Zustand</text>
+  <rect x="910" y="335" width="130" height="100" rx="12" class="node external" /><text x="935" y="369" class="label">K3s</text><text x="935" y="391" class="small">Workload</text><text x="935" y="410" class="small">+ Ingress</text>
+  <rect x="820" y="595" width="220" height="55" rx="12" class="node storage" /><text x="845" y="628" class="label">Vault → ESO</text>
+</svg>

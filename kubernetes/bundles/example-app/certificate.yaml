@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-app
+  namespace: example-app
+spec:
+  secretName: example-app-tls
+  dnsNames:
+    - app.example.com
+  issuerRef:
+    name: example-issuer
+    kind: ClusterIssuer
